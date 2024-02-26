@@ -1,0 +1,98 @@
+#login {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url(https://img.freepik.com/free-vector/cartoon-bookstore-interior-with-books-shelves_107791-20532.jpg?w=1800&t=st=1703334412~exp=1703335012~hmac=08f058f6e893a1122f8818804c969cc06529fcc31d868e5b46c3ae23c20c6e3a) center/cover no-repeat;
+    position: relative;
+    overflow: hidden; 
+  }
+  
+  #login::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0.637), rgba(0, 0, 0, 0.733));
+    z-index: 1;
+  }
+  
+  .login {
+    background: linear-gradient(to right, #ff7e5f, #a17b5d);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+    position: relative;
+    z-index: 2;
+    margin: 10px;
+  }
+  
+  .login:hover {
+    transform: scale(1.02);
+  }
+  
+  .login h3 {
+    color: #fff;
+    font-size: 32px;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    text-decoration: underline;
+    text-transform: uppercase;
+  }
+  
+  .login form {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  .login form .form-grp {
+    width: 100%;
+    margin-bottom: 25px;
+  }
+  
+  .login form .form-grp label {
+    width: 100%;
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #fff;
+  }
+  
+  .login form .form-grp input {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    color: #333;
+    background-color: rgba(255, 255, 255, 0.9);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .login form .form-grp input:focus {
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .login form button {
+    width: 100%;
+    padding: 18px;
+    background-color: #152B75;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 24px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .login form button:hover {
+    background-color: #101b3f;
+  }
+  

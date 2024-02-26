@@ -1,0 +1,31 @@
+.returned-book-container {
+    margin: 20px;
+  }
+  
+  .returned-book-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .issued-books-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  .issued-books-table th, .issued-books-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .issued-books-table th {
+    background-color: #f2f2f2;
+  }
+  
+  .no-issued-books-message {
+    margin-top: 10px;
+    font-style: italic;
+    color: #777;
+  }
+  

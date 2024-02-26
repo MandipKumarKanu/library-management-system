@@ -1,0 +1,13 @@
+#header{
+    position: fixed;
+    width: 100%;
+}
+
+.header{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background: rgb(29, 26, 56);
+    color: #fff;
+    height: 50px;
+}

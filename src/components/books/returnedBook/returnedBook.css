@@ -1,0 +1,41 @@
+/* returnedBook.css */
+
+.returned-book-container {
+    margin: 20px;
+  }
+  
+  .returned-book-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .loading-message,
+  .error-message,
+  .no-returned-books-message {
+    font-size: 16px;
+    color: #333;
+    margin-top: 10px;
+  }
+  
+  .returned-book-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  .returned-book-table-header,
+  .returned-book-table-data {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+  }
+  
+  .returned-book-table-header {
+    background-color: #f2f2f2;
+  }
+  
+  .no-returned-books-message {
+    font-style: italic;
+    color: #555;
+  }  

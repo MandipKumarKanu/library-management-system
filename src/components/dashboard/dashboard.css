@@ -1,0 +1,88 @@
+.d-up {
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.du-up {
+    display: grid;
+    place-items: center;
+    text-transform: uppercase;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.d-card-b {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dash-card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 80px;
+    width: 100%;
+}
+
+.dash-card {
+    display: flex;
+    width: 225px;
+    height: 250px;
+    border-radius: 36px;
+    background: linear-gradient(220deg, rgb(222, 0, 255), rgb(131, 0, 255));
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    cursor: pointer;
+    transition: 0.3s ease-in;
+}
+
+.dash-card a{
+    gap: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dash-card:hover {
+    transform: translate(5px, 5px);
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease-in, box-shadow 0.3s ease-in;
+}
+
+.d-content {
+    font-size: 17px;
+    font-weight: 500;
+    border-bottom: 2px solid transparent; 
+    transition: border-bottom 0.3s ease-in;
+}
+
+.dash-card a:hover .d-content {
+    border-bottom: 2px solid;
+}
+
+
+.dash-card:nth-child(2) {
+    background: linear-gradient(220deg, rgb(0, 173, 238), rgb(42, 64, 145));
+}
+
+.dash-card:nth-child(3) {
+    background: linear-gradient(220deg, rgb(249, 209, 89), rgb(233, 92, 105));
+}
+
+.dash-card:nth-child(4) {
+    background: linear-gradient(220deg, rgb(149, 236, 108), rgb(8, 150, 75));
+}
+
+.dash-ico {
+    font-size: 50px;
+    color: #fff;
+}
+
+.d-num {
+    font-size: 25px;
+    font-weight: bolder;
+}
