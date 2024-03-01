@@ -1,5 +1,6 @@
 import React from 'react'
 import './header.css'
+import Clock from '../../clock'
 
 function Header() {
   return (
@@ -7,7 +8,7 @@ function Header() {
     <section id="header">
         <div className="header">
             <header className="h-left">GyanSagar</header>
-            <header className="h-right">Time</header>
+            <header className="h-right"><Clock/></header>
         </div>
     </section>
     </>

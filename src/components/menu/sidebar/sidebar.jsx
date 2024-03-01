@@ -3,7 +3,7 @@ import "./sidebar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { onAuthStateChanged } from "firebase/auth";
 // import { auth } from "../../../hooks/useSignupHook";
-import { auth } from "../../../helper/firebaseConfig";
+import { auth, signOut } from "../../../helper/firebaseConfig";
 
 import {
   faHome,
@@ -17,10 +17,14 @@ import {
   faCheckSquare,
   faBars,
   faTimes,
+  faHeadset,
+  faComments,
+  faBell,
+  faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
-function Sidebar({isOpen,toggleSidebar}) {
+function Sidebar({ isOpen, toggleSidebar }) {
   const [dropLi, setDropLi] = useState(false);
 
   const handleDrop = () => {
@@ -41,11 +45,20 @@ function Sidebar({isOpen,toggleSidebar}) {
     return () => unsubscribe();
   }, []);
 
+  const logOut = async()=>{
+    try{
+     await signOut.auth
+     console.log("logout done")
+    }catch(error){
+      console.log(error)
+    }
+  }
+
   return (
     <>
       <section id="sidebar" className={isOpen ? "open" : "minimized"}>
         {/* <button className="hamburger-icon" onClick={toggleSidebar}> */}
-          {/* <FontAwesomeIcon icon={isOpen ? faTimes : faBars} /> */}
+        {/* <FontAwesomeIcon icon={isOpen ? faTimes : faBars} /> */}
         {/* </button> */}
         <div className="sidebar">
           <div className="s-up">
@@ -131,6 +144,27 @@ function Sidebar({isOpen,toggleSidebar}) {
 
               <li>
                 <FontAwesomeIcon icon={faUser} /> My Profile
+              </li>
+            </ul>
+          </div>
+
+          <div className="s-btm">
+            <ul>
+              <li>
+                <Link to={`/chatpage`}>
+                  <FontAwesomeIcon icon={faComments} />
+                </Link>
+              </li>
+              <li>
+                <Link to={`/notice`}>
+                  <FontAwesomeIcon icon={faBell} />
+                </Link>
+              </li>
+              <li onClick={logOut}>
+                {/* <Link to={`/`}> */}
+                <FontAwesomeIcon icon={faRightFromBracket} />
+
+                {/* </Link> */}
               </li>
             </ul>
           </div>
