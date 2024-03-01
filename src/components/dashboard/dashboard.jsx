@@ -10,6 +10,7 @@ import {
 import { Link } from "react-router-dom";  
 import { app } from "../../helper/firebaseConfig";
 import { onAuthStateChanged, getAuth } from "firebase/auth";
+import Notice from "../notice/notice";
 
 const auth = getAuth(app);
 
@@ -35,9 +36,9 @@ function Dashboard() {
           <div className="d-up">
             {/* <p>Welcome, {currentUser.email}</p> */}
             <p>Welcome, {currentUser ? currentUser.displayName : "null"}</p>
-            <div className="du-up">Libray Management Control Pannel</div>
+            <div className="du-up">Libray Management Control Panel</div>
             <div className="du-btm">
-              <div className="dash-card-container">
+              {/* <div className="dash-card-container">
                 <div className="dash-card">
                   <Link to={`/totalmember`}>
                     <div className="d-card-u">
@@ -91,7 +92,8 @@ function Dashboard() {
                     </div>
                   </Link>
                 </div>
-              </div>
+              </div> */}
+              <Notice/>
             </div>
           </div>
 

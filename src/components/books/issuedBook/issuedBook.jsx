@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Modal from "react-modal"; // Import the modal library
+import Modal from "react-modal";
 import {
   collection,
   getDocs,
@@ -38,6 +38,7 @@ function IssuedBook() {
 
         if (idExists) {
           const targetObject = books.find((entry) => entry.id === userId);
+          console.log(targetObject);
           setIssuedBooks(targetObject);
         }
 
@@ -88,7 +89,7 @@ function IssuedBook() {
             },
             { merge: true }
           );
-          setIsDialogOpen(false)
+          setIsDialogOpen(false);
         } else {
           console.log("Book not found in issuedBooks.");
         }
@@ -125,7 +126,7 @@ function IssuedBook() {
             },
             { merge: true }
           );
-          setIsDialogOpen(false)
+          setIsDialogOpen(false);
         } else {
           console.log("Book not found in issuedBooks.");
         }
@@ -169,7 +170,7 @@ function IssuedBook() {
     }
   };
 
-  var snn = 1;
+  var snn = 0;
 
   return (
     <>
@@ -191,9 +192,19 @@ function IssuedBook() {
             </thead>
             <tbody>
               {issuedBooks &&
-                Object.entries(issuedBooks).map(([id, book]) => (
-                  <tr key={id}>
-                    {book.bookData && (
+                Object.entries(issuedBooks)
+                  .filter(([id, book]) => book.bookData)
+                  .sort(([idA, bookA], [idB, bookB]) => {
+                    const returnStatusA = bookA.returnStatus || false;
+                    const returnStatusB = bookB.returnStatus || false;
+                    return returnStatusA === returnStatusB
+                      ? 0
+                      : returnStatusA
+                      ? 1
+                      : -1;
+                  })
+                  .map(([id, book]) => (
+                    <tr key={id}>
                       <>
                         <td>{(snn += 1)}</td>
                         <td>{book.bookData.bookName}</td>
@@ -212,9 +223,8 @@ function IssuedBook() {
                           </button>
                         </td>
                       </>
-                    )}
-                  </tr>
-                ))}
+                    </tr>
+                  ))}
             </tbody>
           </table>
 

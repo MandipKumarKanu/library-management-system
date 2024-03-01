@@ -22,7 +22,7 @@ import {
   faBell,
   faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Sidebar({ isOpen, toggleSidebar }) {
   const [dropLi, setDropLi] = useState(false);
@@ -30,6 +30,10 @@ function Sidebar({ isOpen, toggleSidebar }) {
   const handleDrop = () => {
     setDropLi(!dropLi);
   };
+
+  const role = JSON.parse(localStorage.getItem("userD")).role || "";
+  // console.log(role)
+  const navigate = useNavigate();
 
   const [currentUser, setCurrentUser] = useState(null);
 
@@ -45,14 +49,16 @@ function Sidebar({ isOpen, toggleSidebar }) {
     return () => unsubscribe();
   }, []);
 
-  const logOut = async()=>{
-    try{
-     await signOut.auth
-     console.log("logout done")
-    }catch(error){
-      console.log(error)
+  const logOut = async () => {
+    try {
+      await signOut(auth);
+      localStorage.clear();
+      console.log("logout done");
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
     }
-  }
+  };
 
   return (
     <>
@@ -76,7 +82,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
                 <div className="s-user-name">
                   {currentUser ? currentUser.displayName : "null"}
                 </div>
-                <div className="s-user-level">ADMIN</div>
+                <div className="s-user-level">{role}</div>
               </div>
             </div>
           </div>
@@ -142,9 +148,9 @@ function Sidebar({ isOpen, toggleSidebar }) {
                 </Link>
               </li>
 
-              <li>
+              <Link to={`/profile`}>
                 <FontAwesomeIcon icon={faUser} /> My Profile
-              </li>
+              </Link>
             </ul>
           </div>
 

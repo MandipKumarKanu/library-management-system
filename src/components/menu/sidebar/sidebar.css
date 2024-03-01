@@ -16,6 +16,7 @@
   margin: 0 15px;
   transition: margin 0.3s ease;
   height: 100%;
+  position: relative;
 }
 
 .s-up {
@@ -109,7 +110,8 @@ details[open] ol {
 
 .s-btm {
   width: 100%;
-  margin-top: 30rem;
+  position: absolute;
+  bottom: 5px;
 }
 
 .s-btm ul {
@@ -121,4 +123,8 @@ details[open] ol {
 
 .s-btm ul li{
 font-size: 20px;
+}
+
+.s-user-level{
+  text-transform: uppercase;
 }

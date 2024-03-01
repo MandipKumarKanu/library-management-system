@@ -56,8 +56,17 @@
   transition: background-color 0.3s ease-in-out;
 }
 
+.notice-actions button:nth-child(2){
+  margin-left: 5px;
+  background-color: rgb(209, 44, 44) ;
+}
+
 .notice-actions button:hover {
   background-color: #2c3e50;
+}
+
+.notice-actions button:hover:nth-child(2){
+  background-color: rgb(124, 14, 14) ;
 }
 
 .notice-form {
@@ -82,7 +91,8 @@
 }
 
 .notice-form button {
-  background-color: #2ecc71;
+  width: auto;
+  background-color: #0C0A20;
   color: #fff;
   border: none;
   cursor: pointer;
@@ -91,7 +101,7 @@
 }
 
 .notice-form button:hover {
-  background-color: #27ae60;
+  background-color: #090819;
 }
 
 
@@ -99,3 +109,4 @@
   display: flex;
   gap: 20px;
 }
+

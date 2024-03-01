@@ -22,6 +22,7 @@ import ChatPage from "./components/support/support";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./helper/firebaseConfig";
 import Notice from "./components/notice/notice";
+import MyProfile from "./components/users/myProfile/myProfile";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -57,7 +58,7 @@ function App() {
             <Route path="/gd" element={<Getdata />} />
             <Route path="/myBook" element={<MyBook />} />
             <Route path="/allreturn" element={<AllReturn />} />
-            <Route path="/allissued" element={<AllIssued />} />
+            <Route path="/profile" element={<MyProfile />} />
             <Route path="/notice" element={<Notice currentUser={currentUser}/>} />
             <Route
               path="/ChatPage"
