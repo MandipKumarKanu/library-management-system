@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./ChangePasswordDialog.css"; // Import your stylesheet
+import "./ChangePasswordDialog.css";
 import { updatePassword, reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth";
 import { auth } from "../../../helper/firebaseConfig";
 import { doc, updateDoc } from "firebase/firestore";
@@ -9,6 +9,11 @@ function ChangePasswordDialog({ isOpen, onClose }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [passwordError, setPasswordError] = useState(null);
+
+  const handleCloseDialog=()=>{
+    onClose()
+    setPasswordError("")
+  }
 
   const handlePasswordChange = async () => {
     if (newPassword !== confirmPassword) {
@@ -36,8 +41,8 @@ function ChangePasswordDialog({ isOpen, onClose }) {
 
   return (
     <div className={`dialog-overlay ${isOpen ? "open" : ""}`}>
-      <div className="dialog">
-        <span className="close-btn" onClick={onClose}>
+      <div className="dialog okDialog">
+        <span className="close-btn" onClick={handleCloseDialog}>
           &times;
         </span>
         <h2>Change Password</h2>
