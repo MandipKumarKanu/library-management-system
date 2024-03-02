@@ -42,9 +42,9 @@ export const useLogin = () => {
 
       if (usersDoc.exists()) {
         const userDetails = usersDoc.data();
-        localStorage.setItem("userD", JSON.stringify(userDetails));
-        // console.log(userDetails2)
-        alert("Login successful!");
+        const userD = JSON.stringify(userDetails);
+        localStorage.setItem("userD", userD);
+        localStorage.setItem("profileImg", userDetails.profileImg);
         navigate("/");
       } else {
         throw new Error();

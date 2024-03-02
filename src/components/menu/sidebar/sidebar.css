@@ -128,3 +128,10 @@ font-size: 20px;
 .s-user-level{
   text-transform: uppercase;
 }
+
+
+.s-user-img{
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+}

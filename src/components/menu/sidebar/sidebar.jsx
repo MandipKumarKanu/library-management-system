@@ -32,6 +32,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
   };
 
   const role = JSON.parse(localStorage.getItem("userD")).role || "";
+  const profileImg = localStorage.getItem("profileImg")
   // console.log(role)
   const navigate = useNavigate();
 
@@ -70,13 +71,16 @@ function Sidebar({ isOpen, toggleSidebar }) {
           <div className="s-up">
             <div className="s-user">
               <div className="s-user-l">
-                <div
+               {profileImg ? (<div
                   className="s-user-img"
                   style={{
+                    background: `url(${profileImg})`,
+                    // backgroundPosition: `center`,
+                    // backgroundSize: `contain`,
                     height: `50px`,
                     width: `50px`,
                     borderRadius: `50%`,
-                  }}></div>
+                  }}></div>):" "}
               </div>
               <div className="s-user-r">
                 <div className="s-user-name">

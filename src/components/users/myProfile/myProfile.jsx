@@ -11,6 +11,8 @@ function MyProfile() {
   const [loading, setLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
+  const [loadingUpdate, setLoadingUpdate] = useState(false);
+  const [imageSelected, setImageSelected] = useState(false);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -41,12 +43,15 @@ function MyProfile() {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+    setImageSelected(true);
     setProfileImage(file);
   };
 
-  const handleImageUpload = async () => {
+  const handleImageUpdate = async () => {
     try {
       if (profileImage) {
+        setLoadingUpdate(true);
+
         const storageRef = ref(storage, `profile_images/${userId}`);
         await uploadBytes(storageRef, profileImage);
 
@@ -59,47 +64,88 @@ function MyProfile() {
           ...prevProfile,
           profileImg: downloadURL,
         }));
+
+        localStorage.setItem("profileImg", downloadURL)
       }
+      setImageSelected(false);
     } catch (error) {
-      console.error("Error uploading profile image:", error);
+      console.error("Error updating profile image:", error);
+    } finally {
+      setLoadingUpdate(false);
     }
   };
 
   return (
     <div className="my-profile-container">
-      <h2>My Profile</h2>
-      {userProfile && (
-        <div>
-          <p>
-            <strong>Name:</strong> {userProfile.name}
-          </p>
-          <p>
-            <strong>Email:</strong> {userProfile.email}
-          </p>
-          <p>
-            <strong>Profile Image:</strong>{" "}
-            {userProfile.profileImg ? (
-              <img src={userProfile.profileImg} alt="Profile" />
-            ) : (
-              "No image"
-            )}
-          </p>
-
-          {!userProfile.profileImg && (
+      {loading ? (
+        "loading"
+      ) : (
+        <>
+          {userProfile && (
             <>
-              <input type="file" onChange={handleImageChange} accept="image/*" />
-              <button onClick={handleImageUpload}>Upload Profile Image</button>
+              <h2>My Profile</h2>
+              <div className="profile-container">
+                <div className="lp">
+                  <div className="lp-img">
+                    <img
+                      src={
+                        imageSelected && profileImage instanceof Blob
+                          ? URL.createObjectURL(profileImage)
+                          : userProfile.profileImg || "/images/user.webp"
+                      }
+                      alt="Profile"
+                      className="profile-image"
+                    />
+
+                    <input
+                      type="file"
+                      onChange={handleImageChange}
+                      accept="image/*"
+                      id="file-input"
+                      name="file-input"
+                    />
+
+                    <label id="file-input-label" htmlFor="file-input">
+                      {imageSelected ? (
+                        <button onClick={handleImageUpdate}>
+                          <span>
+                            {loadingUpdate
+                              ? "Updating..."
+                              : "Update Profile Image"}
+                          </span>
+                        </button>
+                      ) : (
+                        "Select a Profile Picture"
+                      )}
+                    </label>
+                  </div>
+                </div>
+
+                <div className="rp">
+                  <p>
+                    <strong>Name:</strong> {userProfile.name}
+                  </p>
+                  <p>
+                    <strong>Email:</strong> {userProfile.email}
+                  </p>
+                  <p>
+                    <strong>Profile Image:</strong>
+                  </p>
+
+                  <button onClick={openChangePasswordDialog}>
+                    Change Password
+                  </button>
+                </div>
+              </div>
             </>
           )}
 
-          <button onClick={openChangePasswordDialog}>Change Password</button>
-        </div>
+          <ChangePasswordDialog
+            isOpen={isDialogOpen}
+            onClose={closeChangePasswordDialog}
+          />
+        </>
       )}
-
-      <ChangePasswordDialog
-        isOpen={isDialogOpen}
-        onClose={closeChangePasswordDialog}
-      />
     </div>
   );
 }
