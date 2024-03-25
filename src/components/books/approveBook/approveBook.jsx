@@ -134,7 +134,7 @@ function ApproveBook() {
     {
       header: "Issue Date",
       accessorKey: "data.data.issueDate",
-      cell: ({ value }) => formatTimestamp(value),
+      cell: ({ row }) => formatTimestamp(row.original.data.data.issueDate)
     },
     {
       header: "Action",

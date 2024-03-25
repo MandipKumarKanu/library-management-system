@@ -47,7 +47,7 @@ function AllUsers() {
   return (
     <div className="all-users-container">
       <h2>All Users</h2>
-      <table className="all-users-table">
+      <table className="data-table">
         <thead>
           <tr>
             <th>Name</th>
@@ -64,7 +64,7 @@ function AllUsers() {
               <td>{user.email}</td>
               <td>{user.faculty}</td>
               <td>{user.semester}</td>
-              <td onClick={() => handelDelete(user.uid)}>Delete</td>
+              <td><button onClick={() => handelDelete(user.uid)}>Delete</button></td>
             </tr>
           ))}
         </tbody>

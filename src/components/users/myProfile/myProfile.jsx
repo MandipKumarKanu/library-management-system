@@ -64,8 +64,8 @@ function MyProfile() {
           ...prevProfile,
           profileImg: downloadURL,
         }));
-
         localStorage.setItem("profileImg", downloadURL)
+        alert("Image Updated")
       }
       setImageSelected(false);
     } catch (error) {

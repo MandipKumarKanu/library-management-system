@@ -178,13 +178,13 @@ function IssuedBook() {
         <p>Loading...</p>
       ) : (
         <>
-          <table className="issued-books-table" border="2">
+          <table className="data-table" border="2">
             <thead>
               <tr>
                 <th>SN</th>
                 <th>Title</th>
                 <th>Author</th>
-                <th>Edition</th>
+                {/* <th>Edition</th> */}
                 <th>Issued Date</th>
                 <th>Return Status</th>
                 <th>Action</th>
@@ -209,7 +209,7 @@ function IssuedBook() {
                         <td>{(snn += 1)}</td>
                         <td>{book.bookData.bookName}</td>
                         <td>{book.bookData.author}</td>
-                        <td>{book.bookData.edition}</td>
+                        {/* <td>{book.bookData.edition}</td> */}
                         <td>{formatTimestamp(book.bookData.issueDate)}</td>
                         <td>
                           {book.returnStatus ? "pending" : "Yet to return"}

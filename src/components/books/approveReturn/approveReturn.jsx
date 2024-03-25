@@ -15,8 +15,8 @@ import ConfirmationDialog from "../../dialog/dialog";
 function ApproveReturn() {
   const [pendingReturns, setPendingReturns] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [userNames, setUserNames] = useState({}); // Store user names
 
-  // documentId, returnKey, bookId
   const [documentId, setDocumentId] = useState("");
   const [bookId, setBookId] = useState();
   const [returnKey, setReturnKey] = useState();
@@ -36,12 +36,28 @@ function ApproveReturn() {
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
-        setLoading(false);
+        // setLoading(false);
       }
     };
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const fetchUserNames = async () => {
+      const names = {};
+      for (const item of pendingReturns) {
+        const userName = await fetchUserName(item.id);
+        names[item.id] = userName;
+      }
+      setUserNames(names);
+      setLoading(false);
+    };
+
+    if (pendingReturns.length > 0) {
+      fetchUserNames();
+    }
+  }, [pendingReturns]);
 
   const approveReturn = async () => {
     try {
@@ -123,20 +139,47 @@ function ApproveReturn() {
     setIsDialogOpen(true);
   };
 
+  const fetchUserName = async (userId) => {
+    try {
+      const userColl = collection(db, "users");
+      const userDoc = doc(userColl, userId);
+      const userDocRef = await getDoc(userDoc);
+      if (userDocRef.exists()) {
+        const name = userDocRef.data().name;
+        return name;
+      } else {
+        return "Unknown";
+      }
+    } catch (error) {
+      console.error("Error fetching user name:", error);
+      return "Unknown";
+    }
+  };
+
+
+  const dateChange = (date)=>{
+    return ((new Date(date*1000)).toLocaleDateString())
+  }
+
+
+  let snnn = 0
   return (
     <>
       <h2>Pending Approve Returns</h2>
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <table>
+        <table className="data-table">
           <thead>
             <tr>
-              <th>ID</th>
+              <th>SN</th>
+              {/* <th>ID</th> */}
+              <th>User Name</th>
               <th>Book Name</th>
-              <th>Book Id</th>
+              {/* <th>Book Id</th> */}
+              <th>Issued Date</th>
               <th>Return Date</th>
-              <th>Status</th>
+              {/* <th>Status</th> */}
               <th>Action</th>
             </tr>
           </thead>
@@ -148,27 +191,37 @@ function ApproveReturn() {
                   Object.keys(value.returnBookData).length > 0;
                 return (
                   hasReturnData && (
-                    <tr key={key}>
-                      <td>{item.id}</td>
-                      <td>{value.returnBookData?.book?.bookName || "N/A"}</td>
-                      <td>{value.returnBookData?.book?.id || "N/A"}</td>
-                      <td>
-                        {value.returnBookData?.returnDate?.seconds || "N/A"}
-                      </td>
-                      <td>{value.returnStatus ? "Approved" : "Pending"}</td>
-                      <td>
-                        <button
-                          onClick={() =>
-                            handleApproveReturn(
-                              item.id,
-                              key,
-                              value.returnBookData?.book?.id
-                            )
-                          }>
-                          Approve
-                        </button>
-                      </td>
-                    </tr>
+                    <>
+                      {console.log(value.returnBookData)}
+                      <tr key={key}>
+                        <td>{snnn +=1}</td>
+                        {/* <td>{item.id}</td> */}
+                        <td>{userNames[item.id]}</td>
+                        <td>{value.returnBookData?.book?.bookName || "N/A"}</td>
+                        {/* <td>{value.returnBookData?.book?.id || "N/A"}</td> */}
+
+                        <td>
+                            {dateChange(value.returnBookData?.book?.issueDate.seconds) ||
+                            "N/A"}
+                        </td>
+                        <td>
+                          {dateChange(value.returnBookData?.returnDate?.seconds) || "N/A"}
+                        </td>
+                        {/* <td>{value.returnStatus ? "Approved" : "Pending"}</td> */}
+                        <td>
+                          <button
+                            onClick={() =>
+                              handleApproveReturn(
+                                item.id,
+                                key,
+                                value.returnBookData?.book?.id
+                              )
+                            }>
+                            Approve
+                          </button>
+                        </td>
+                      </tr>
+                    </>
                   )
                 );
               })

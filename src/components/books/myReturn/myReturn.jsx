@@ -9,7 +9,6 @@ function MyReturn() {
   useEffect(() => {
     const fetchMyReturnData = async () => {
       try {
-        // Assume you have the user ID stored in localStorage
         const userId = localStorage.getItem("uid");
 
         const myBooksCollection = collection(db, "myReturn");
@@ -46,10 +45,10 @@ function MyReturn() {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <table>
+        <table className="data-table">
           <thead>
             <tr>
-              <th>ID</th>
+              {/* <th>ID</th> */}
               <th>Return Status</th>
               <th>Issued Date</th>
               <th>Return Date</th>
@@ -59,29 +58,31 @@ function MyReturn() {
           <tbody>
             {Object.entries(userReturnData).map(
               ([id, data]) =>
-                // Check if data is valid before rendering the row
                 data &&
                 data.returnStatus !== undefined &&
                 data.returnDate !== undefined && (
-                  <tr key={id}>
-                    <td>{id}</td>
-                    <td>{data.returnStatus ? "Returned" : "Not Returned"}</td>
-                    <td>
-                      {data.returnBookData.book.issueDate
-                        ? new Date(
-                            data.returnBookData.book.issueDate.seconds * 1000
-                          ).toLocaleString()
-                        : "N/A"}
-                    </td>
-                    <td>
-                      {data.returnDate
-                        ? new Date(
-                            data.returnDate.seconds * 1000
-                          ).toLocaleString()
-                        : "N/A"}
-                    </td>
-                    <td>{data.returnBookData.book.bookName}</td>
-                  </tr>
+                  <>
+                    {console.log(data.returnBookData)}
+                    <tr key={id}>
+                      {/* <td>{id}</td> */}
+                      <td>{data.returnStatus ? "Returned" : "Not Returned"}</td>
+                      <td>
+                        {data.returnBookData.book.issueDate
+                          ? new Date(
+                              data.returnBookData.book.issueDate.seconds * 1000
+                            ).toLocaleDateString()
+                          : "N/A"}
+                      </td>
+                      <td>
+                        {data.returnDate
+                          ? new Date(
+                              data.returnDate.seconds * 1000
+                            ).toLocaleDateString()
+                          : "N/A"}
+                      </td>
+                      <td>{data.returnBookData.book.bookName}</td>
+                    </tr>
+                  </>
                 )
             )}
           </tbody>
