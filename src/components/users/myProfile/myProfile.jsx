@@ -128,10 +128,7 @@ function MyProfile() {
                   <p>
                     <strong>Email:</strong> {userProfile.email}
                   </p>
-                  <p>
-                    <strong>Profile Image:</strong>
-                  </p>
-
+                
                   <button onClick={openChangePasswordDialog}>
                     Change Password
                   </button>

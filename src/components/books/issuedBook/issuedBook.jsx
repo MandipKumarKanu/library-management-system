@@ -235,6 +235,18 @@ function IssuedBook() {
             <h2>Book Details</h2>
             {selectedBook && selectedBook.bookData && (
               <>
+                {selectedBook.data?.coverImageURLs && (
+                  <div
+                    className="coverImageURLs"
+                    style={{
+                      background: `url(${selectedBook.data.coverImageURLs})`,
+                      height: "300px",
+                      width: "300px",
+                      backgroundPosition: "center",
+                      backgroundSize: "cover",
+                      backgroundRepeat: "no-repeat",
+                    }}></div>
+                )}
                 <p>Title: {selectedBook.bookData.bookName}</p>
                 <p>Author: {selectedBook.bookData.author}</p>
                 <p>Edition: {selectedBook.bookData.edition}</p>

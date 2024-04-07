@@ -32,7 +32,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
   };
 
   const role = JSON.parse(localStorage.getItem("userD")).role || "";
-  const profileImg = localStorage.getItem("profileImg")
+  const profileImg = localStorage.getItem("profileImg");
   // console.log(role)
   const navigate = useNavigate();
 
@@ -71,16 +71,20 @@ function Sidebar({ isOpen, toggleSidebar }) {
           <div className="s-up">
             <div className="s-user">
               <div className="s-user-l">
-               {profileImg ? (<div
-                  className="s-user-img"
-                  style={{
-                    background: `url(${profileImg})`,
-                    // backgroundPosition: `center`,
-                    // backgroundSize: `contain`,
-                    height: `50px`,
-                    width: `50px`,
-                    borderRadius: `50%`,
-                  }}></div>):" "}
+                {profileImg ? (
+                  <div
+                    className="s-user-img"
+                    style={{
+                      background: `url(${profileImg})`,
+                      // backgroundPosition: `center`,
+                      // backgroundSize: `contain`,
+                      height: `50px`,
+                      width: `50px`,
+                      borderRadius: `50%`,
+                    }}></div>
+                ) : (
+                  " "
+                )}
               </div>
               <div className="s-user-r">
                 <div className="s-user-name">
@@ -108,15 +112,16 @@ function Sidebar({ isOpen, toggleSidebar }) {
                     <FontAwesomeIcon icon={faCaretDown} className="drop-down" />
                   </summary>
                   <ol>
-                    <li>
-                      <Link to={`/addbook`}>
-                        <FontAwesomeIcon icon={faListAlt} /> Add Book(admin)
-                      </Link>
-                    </li>
+                    {role === "admin" && (
+                      <li>
+                        <Link to={`/addbook`}>
+                          <FontAwesomeIcon icon={faListAlt} /> Add Book
+                        </Link>
+                      </li>
+                    )}
                     <li>
                       <Link to={`/allbook`}>
-                        <FontAwesomeIcon icon={faListAlt} /> All
-                        Book(admin/user)
+                        <FontAwesomeIcon icon={faListAlt} /> All Book
                       </Link>
                     </li>
                     <li>
@@ -125,32 +130,36 @@ function Sidebar({ isOpen, toggleSidebar }) {
                         Book(user)
                       </Link>
                     </li>
-                    <li>
-                      <Link to={`/approveReturn`}>
-                        <FontAwesomeIcon icon={faUndo} /> Yet to return
-                        Book(admin)
-                      </Link>
-                    </li>
+                    {role === "admin" && (
+                      <li>
+                        <Link to={`/approveReturn`}>
+                          <FontAwesomeIcon icon={faUndo} /> Yet to return Book
+                        </Link>
+                      </li>
+                    )}
                     <li>
                       <Link to={`/returned`}>
                         <FontAwesomeIcon icon={faCheckSquare} /> Returned Book
                       </Link>
                     </li>
-                    <li>
-                      <Link to={`/approve`}>
-                        <FontAwesomeIcon icon={faCheckSquare} /> approve
-                        Book(admin)
-                      </Link>
-                    </li>
+                    {role === "admin" && (
+                      <li>
+                        <Link to={`/approve`}>
+                          <FontAwesomeIcon icon={faCheckSquare} /> approve Book
+                        </Link>
+                      </li>
+                    )}
                   </ol>
                 </details>
               </li>
 
-              <li>
-                <Link to={`/totalmember`}>
-                  <FontAwesomeIcon icon={faUsers} /> Users
-                </Link>
-              </li>
+              {role === "admin" && (
+                <li>
+                  <Link to={`/totalmember`}>
+                    <FontAwesomeIcon icon={faUsers} /> Users
+                  </Link>
+                </li>
+              )}
 
               <Link to={`/profile`}>
                 <FontAwesomeIcon icon={faUser} /> My Profile
@@ -160,11 +169,11 @@ function Sidebar({ isOpen, toggleSidebar }) {
 
           <div className="s-btm">
             <ul>
-              <li>
+              {/* <li>
                 <Link to={`/chatpage`}>
                   <FontAwesomeIcon icon={faComments} />
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link to={`/notice`}>
                   <FontAwesomeIcon icon={faBell} />

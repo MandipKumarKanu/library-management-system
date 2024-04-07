@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useAddBookHook } from "../../../hook/useAddBookHook";
 import {
   doc,
@@ -70,13 +70,13 @@ function AllBooks() {
       console.log("No current user. Cannot add to wishlist.");
       return;
     }
-  
+
     try {
       const userIssuedSummaryRef = doc(db, "userIssuedSummary", uid);
       const userIssuedSummaryDoc = await getDoc(userIssuedSummaryRef);
-  
+
       let issuedBookIds = [];
-  
+
       if (userIssuedSummaryDoc.exists()) {
         issuedBookIds = userIssuedSummaryDoc.data().issuedBooks || [];
         if (issuedBookIds.includes(bookData.bookId)) {
@@ -87,13 +87,13 @@ function AllBooks() {
           return;
         }
       }
-  
+
       const userDocRef = doc(db, "users", uid);
       const userDoc = await getDoc(userDocRef);
-  
+
       const issuedBooksCollection = collection(db, "approve_issued_books");
       const TotalIssueBooksCollection = collection(db, "total_issued_books");
-  
+
       const { data, ...restOfBook } = bookData;
       const newData = {
         ...data,
@@ -105,36 +105,35 @@ function AllBooks() {
         userId: uid,
         pendingApproved: true,
       };
-  
+
       const totalIssuedBook = {
         ...issuedBook,
         userData: userDoc.data(),
       };
-  
+
       const updatedNumberOfBooks = bookData.data.numberOfBooks - 1;
-  
+
       await setDoc(userIssuedSummaryRef, {
         issuedBooks: [...issuedBookIds, bookData.bookId],
       });
-  
+
       await addDoc(issuedBooksCollection, issuedBook);
       await addDoc(TotalIssueBooksCollection, totalIssuedBook);
-  
+
       const bookRef = doc(db, "books", bookData.bookId);
-      await updateDoc(bookRef, { "numberOfBooks": updatedNumberOfBooks });
-  
+      await updateDoc(bookRef, { numberOfBooks: updatedNumberOfBooks });
+
       setMessage("Book issued successfully");
       setSuccessUpdate(true);
       setIsDialogOpen(false);
       console.log("Book issued successfully:", issuedBook);
-      fetchData(); 
+      fetchData();
     } catch (error) {
       setMessage("Error adding to wishlist");
       setSuccessUpdate(true);
       console.error("Error adding to wishlist:", error);
     }
   };
-
 
   const handleIssueConfirmation = (book) => {
     setBookData(book);
@@ -165,7 +164,7 @@ function AllBooks() {
   const handleUpdateClick = (e, book) => {
     e.preventDefault();
     setUpdateBook({ ...book.data, id: book.id });
-    setSelectedImage(null); 
+    setSelectedImage(null);
     dialogRef.current.showModal();
   };
 
@@ -187,78 +186,86 @@ function AllBooks() {
     }
   };
 
-  const allColumns = [
-    {
-      header: "Book Name",
-      accessorKey: "data.bookName",
-    },
-    {
-      header: "Author",
-      accessorKey: "data.author",
-    },
-    {
-      header: "Genre",
-      accessorKey: "data.genre",
-    },
-    {
-      header: "Edition",
-      accessorKey: "data.edition",
-    },
-    {
-      header: "Publication Date",
-      accessorKey: "data.publicationDate",
-    },
-    {
-      header: "Number of Books",
-      accessorKey: "data.numberOfBooks",
-    },
-    {
-      header: "Book Shelf",
-      accessorKey: "data.bookShelf",
-    },
-    {
-      header: "Description",
-      accessorKey: "data.description",
-    },
-    {
-      header: "Cover Image",
-      accessorKey: "data.coverImageURLs",
-      cell: ({ row }) => (
-        <>
-          <img
-            src={row.original.data.coverImageURLs[0]}
-            alt={`Book Cover Image`}
-            style={{ width: "auto", height: "100px" }}
-          />
-        </>
-      ),
-    },
-    {
-      header: "Actions",
-      cell: ({ row }) => (
-        <div>
-          <button onClick={() => handleIssueConfirmation(row.original)}>
-            Add to Wishlist
-          </button>
-          <button onClick={() => handleDeleteConfirmation(row.original.bookId)}>
-            Delete
-          </button>
-          <button
-            onClick={(e) =>
-              handleUpdateClick(e, {
-                id: row.original.bookId,
-                data: row.original.data,
-              })
-            }>
-            Update
-          </button>
-          <button onClick={() => handleOpenDialog(row.original)}>
-            View Details
-          </button>
-        </div>
-      ),
-    },
-  ];
+  const allColumns = useMemo(
+    () => [
+      {
+        header: "Book Name",
+        accessorKey: "data.bookName",
+      },
+      {
+        header: "Author",
+        accessorKey: "data.author",
+      },
+      {
+        header: "Genre",
+        accessorKey: "data.genre",
+      },
+      {
+        header: "Edition",
+        accessorKey: "data.edition",
+      },
+      {
+        header: "Publication Date",
+        accessorKey: "data.publicationDate",
+      },
+      {
+        header: "Number of Books",
+        accessorKey: "data.numberOfBooks",
+      },
+      {
+        header: "Book Shelf",
+        accessorKey: "data.bookShelf",
+      },
+      {
+        header: "Description",
+        accessorKey: "data.description",
+      },
+      {
+        header: "Cover Image",
+        accessorKey: "data.coverImageURLs",
+        cell: ({ row }) => (
+          <>
+            <img
+              src={row.original.data.coverImageURLs[0]}
+              alt={`Book Cover Image`}
+              style={{ width: "auto", height: "100px" }}
+            />
+          </>
+        ),
+      },
+      {
+        header: "Actions",
+        cell: ({ row }) => (
+          <div>
+            {/* {console.log(row)} */}
+
+            {row.original.data.numberOfBooks > 0 && (
+              <button onClick={() => handleIssueConfirmation(row.original)}>
+                Add to Wishlist
+              </button>
+            )}
+            <button
+              onClick={() => handleDeleteConfirmation(row.original.bookId)}>
+              Delete
+            </button>
+            <button
+              onClick={(e) =>
+                handleUpdateClick(e, {
+                  id: row.original.bookId,
+                  data: row.original.data,
+                })
+              }>
+              Update
+            </button>
+            <button onClick={() => handleOpenDialog(row.original)}>
+              View Details
+            </button>
+          </div>
+        ),
+      },
+    ],
+    [books]
+  );
 
   const handleOpenDialog = (book) => {
     setSelectedBook(book);
@@ -276,7 +283,7 @@ function AllBooks() {
         )}
       </div>
 
-      <dialog ref={dialogRef}>
+      <dialog ref={dialogRef} className="AllDialogUpdate">
         {updateBook ? (
           <div className="add-book-container">
             <div className="add-book-form">
@@ -401,7 +408,7 @@ function AllBooks() {
                   </div>
                 </div>
 
-                <div className="form-group1">
+                {/* <div className="form-group1">
                   <div className="form-group2">
                     <div className="form-group">
                       <label htmlFor="cover-image">Book Cover Image:</label>
@@ -426,7 +433,7 @@ function AllBooks() {
                       />
                     )}
                   </div>
-                </div>
+                </div> */}
 
                 <div className="form-group">
                   <label htmlFor="description">Description:</label>
@@ -470,8 +477,23 @@ function AllBooks() {
 
       {selectedBook && (
         <div className="dialog-container">
-          <div className="dialog">
+          <div className="dialog dialoggg">
             <h2>Book Details</h2>
+            {/* <h2>Book Details</h2> */}
+            {/* <img src={selectedBook.data.coverImageURLs} alt="" /> */}
+            {selectedBook.data.coverImageURLs && (
+              <div
+                className="coverImageURLs"
+                style={{
+                  background: `url(${selectedBook.data.coverImageURLs})`,
+                  height: "300px",
+                  width: "300px",
+                  backgroundPosition: "center",
+                  backgroundSize: "cover",
+                  backgroundRepeat: "no-repeat",
+                }}></div>
+            )}
+
             <p>Book Name: {selectedBook.data.bookName}</p>
             <p>Author: {selectedBook.data.author}</p>
             <button onClick={() => setSelectedBook(null)}>Close</button>
